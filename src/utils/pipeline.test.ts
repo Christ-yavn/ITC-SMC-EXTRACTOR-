@@ -1,4 +1,4 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { 
   deduplicateVideos, 
@@ -19,7 +19,7 @@ test('deduplicateVideos merges playlists and sorts chronologically', () => {
       titre: 'Killzones SMC',
       date_video: '2024-05-10',
       duree_s: 1200,
-      description: 'PrÃ©sentation des Killzones'
+      description: 'Présentation des Killzones'
     },
     {
       playlist: 'P4',
@@ -29,7 +29,7 @@ test('deduplicateVideos merges playlists and sorts chronologically', () => {
       titre: 'Killzones SMC (rediff)',
       date_video: '2024-05-10',
       duree_s: 1200,
-      description: 'MÃªme vidÃ©o dans P4'
+      description: 'Même vidéo dans P4'
     },
     {
       playlist: 'P1',
@@ -68,7 +68,7 @@ test('lintFicheV3 validates benchmark FICHE_DG2_OSUXN60_BPR with 10/10 verdict',
   const result = lintFicheV3(FICHE_DG2_OSUXN60_BPR);
   assert.equal(result.isV3, true);
   assert.equal(result.isValid, true);
-  assert.equal(result.verdict, 'PRÃŠT_POUR_CODAGE_10_SUR_10');
+  assert.equal(result.verdict, 'PRÊT_POUR_CODAGE_10_SUR_10');
   assert.equal(result.checks.causalStructure, true);
   assert.equal(result.checks.allEightHumanSections, true);
   assert.equal(result.checks.doubleFSM, true);
@@ -87,21 +87,21 @@ test('lintFicheV3 validates benchmark FICHE_DG2_OSUXN60_BPR with 10/10 verdict',
 });
 
 test('lintFicheV3 rejects a fiche with invented scoring points', () => {
-  const badFicheWithPoints = FICHE_DG2_OSUXN60_BPR + '\nCritÃ¨re de scoring inventÃ© : +40 pts si confluence\n';
+  const badFicheWithPoints = FICHE_DG2_OSUXN60_BPR + '\nCritère de scoring inventé : +40 pts si confluence\n';
   const result = lintFicheV3(badFicheWithPoints);
   assert.equal(result.checks.antiInventedScoring, false);
   assert.equal(result.isValid, false);
-  assert.equal(result.verdict, 'RÃ‰VISION_REQUISE');
-  assert.ok(result.errors.some(e => e.includes('BarÃ¨me Ã  points inventÃ©')));
+  assert.equal(result.verdict, 'RÉVISION_REQUISE');
+  assert.ok(result.errors.some(e => e.includes('Barème à points inventé')));
 });
 
 test('lintFicheV3 rejects a fiche with a missing human section', () => {
   // Remove section 5 Contre-exemples
-  const badFicheMissingSection = FICHE_DG2_OSUXN60_BPR.replace('### 5. Contre-exemples', '### 5. SupprimÃ©');
+  const badFicheMissingSection = FICHE_DG2_OSUXN60_BPR.replace('### 5. Contre-exemples', '### 5. Supprimé');
   const result = lintFicheV3(badFicheMissingSection);
   assert.equal(result.checks.allEightHumanSections, false);
   assert.equal(result.isValid, false);
-  assert.equal(result.verdict, 'RÃ‰VISION_REQUISE');
+  assert.equal(result.verdict, 'RÉVISION_REQUISE');
   assert.ok(result.missingHumanSections.some(s => s.includes('Contre-exemples')));
 });
 
@@ -124,10 +124,10 @@ test('classifyConceptStrict strictly matches concepts with word boundaries', asy
   const { classifyConceptStrict } = await import('./pipeline.ts');
   
   // Anti-false positive test: 'ob' inside words must NEVER match Order Block
-  const proba = classifyConceptStrict('Ce Setup ICT a 80% de probabilitÃ©');
+  const proba = classifyConceptStrict('Ce Setup ICT a 80% de probabilité');
   assert.notEqual(proba.conceptCode, 'OB');
 
-  const oblige = classifyConceptStrict('Tu es OBLIGÃ‰ de ConnaÃ®tre cette StratÃ©gie');
+  const oblige = classifyConceptStrict('Tu es OBLIGÉ de Connaître cette Stratégie');
   assert.notEqual(oblige.conceptCode, 'OB');
 
   const objectif = classifyConceptStrict('Quel Objectif Choisir');
@@ -150,8 +150,8 @@ schema_version: "SCRIBE-ICT-v3.0"
 video_id: "fake_test"
 duree_secondes: 1200
 ---
-## I. REGISTRE DE PREUVES HORODATÃ‰
-S-01 Ã  00:01:45 : "C'est la zone exacte oÃ¹ l'algorithme interbancaire vient rÃ©Ã©quilibrer les ordres"
+## I. REGISTRE DE PREUVES HORODATÉ
+S-01 à 00:01:45 : "C'est la zone exacte où l'algorithme interbancaire vient rééquilibrer les ordres"
 `;
   const result = lintFicheV3(fakeClone);
   assert.equal(result.isValid, false);
@@ -164,32 +164,32 @@ schema_version: "SCRIBE-ICT-v3.0"
 video_id: "short_vid"
 duree_secondes: 300
 ---
-## I. REGISTRE DE PREUVES HORODATÃ‰
+## I. REGISTRE DE PREUVES HORODATÉ
 ### 1. Preuves Verbales
-S-01 [08:30] : Citation impossible car la vidÃ©o fait 5 minutes
-## II. TABLE UNIQUE DES PARAMÃˆTRES
+S-01 [08:30] : Citation impossible car la vidéo fait 5 minutes
+## II. TABLE UNIQUE DES PARAMÈTRES
 <<<CONCEPT_SPEC_V3>>>
 ZONE_FSM
 TRADE_FSM
 {"fixture_id": "F1"}
 <<<FIN_CONCEPT_SPEC_V3>>>
-## IV. LEÃ‡ON HUMAINE EXPERTE
-### 1. Pourquoi Ã§a existe
-### 2. SchÃ©ma annotÃ©
-### 3. MÃ©thode pas Ã  pas
-### 4. Exemples commentÃ©s
+## IV. LEÇON HUMAINE EXPERTE
+### 1. Pourquoi ça existe
+### 2. Schéma annoté
+### 3. Méthode pas à pas
+### 4. Exemples commentés
 ### 5. Contre-exemples
-### 6. ExÃ©cution
+### 6. Exécution
 ### 7. Zones grises
-### 8. Erreurs frÃ©quentes
+### 8. Erreurs fréquentes
 <<<FIN_FICHE_V3>>>
 `;
   const result = lintFicheV3(ficheWithBadTimestamp);
   assert.equal(result.isValid, false);
-  assert.ok(result.errors.some(e => e.includes('IncohÃ©rence temporelle')));
+  assert.ok(result.errors.some(e => e.includes('Incohérence temporelle')));
 });
 
-test('rollbackBatchInRegistry cleanly resets videos in batch back to ClassÃ© and clears Drive file ID', async () => {
+test('rollbackBatchInRegistry cleanly resets videos in batch back to Classé and clears Drive file ID', async () => {
   const { createInitialRegistry, updateVideoTrace, rollbackBatchInRegistry } = await import('../services/traceabilityRegistry.ts');
   const mockVideos = [
     { video_id: 'V1', titre: 'T1', playlists: ['P1'], duree_s: 600, url: 'https://youtube.com/watch?v=V1' },
@@ -198,23 +198,23 @@ test('rollbackBatchInRegistry cleanly resets videos in batch back to ClassÃ© a
 
   let reg = createInitialRegistry(mockVideos as any);
   reg = updateVideoTrace(reg, 'V1', {
-    status: 'ValidÃ©',
+    status: 'Validé',
     batchId: 'batch_123',
     driveFileId: 'drive_file_abc',
     codabilityScore: 10.0,
   });
 
-  assert.equal(reg.videoRecords['V1'].status, 'ValidÃ©');
+  assert.equal(reg.videoRecords['V1'].status, 'Validé');
   assert.equal(reg.videoRecords['V1'].driveFileId, 'drive_file_abc');
 
   const rolledBack = rollbackBatchInRegistry(reg, 'batch_123');
-  assert.equal(rolledBack.videoRecords['V1'].status, 'ClassÃ©');
+  assert.equal(rolledBack.videoRecords['V1'].status, 'Classé');
   assert.equal(rolledBack.videoRecords['V1'].driveFileId, undefined);
   assert.equal(rolledBack.videoRecords['V1'].batchId, undefined);
-  assert.equal(rolledBack.videoRecords['V2'].status, 'ClassÃ©');
+  assert.equal(rolledBack.videoRecords['V2'].status, 'Classé');
 });
 
-test('rollbackVideosInRegistry resets specified videos back to ClassÃ©', async () => {
+test('rollbackVideosInRegistry resets specified videos back to Classé', async () => {
   const { createInitialRegistry, updateVideoTrace, rollbackVideosInRegistry } = await import('../services/traceabilityRegistry.ts');
   const mockVideos = [
     { video_id: 'V1', titre: 'T1', playlists: ['P1'], duree_s: 600, url: 'https://youtube.com/watch?v=V1' },
@@ -222,13 +222,13 @@ test('rollbackVideosInRegistry resets specified videos back to ClassÃ©', async
   ];
 
   let reg = createInitialRegistry(mockVideos as any);
-  reg = updateVideoTrace(reg, 'V1', { status: 'ValidÃ©', driveFileId: 'f1' });
-  reg = updateVideoTrace(reg, 'V2', { status: 'ValidÃ©', driveFileId: 'f2' });
+  reg = updateVideoTrace(reg, 'V1', { status: 'Validé', driveFileId: 'f1' });
+  reg = updateVideoTrace(reg, 'V2', { status: 'Validé', driveFileId: 'f2' });
 
   const rolledBack = rollbackVideosInRegistry(reg, ['V1']);
-  assert.equal(rolledBack.videoRecords['V1'].status, 'ClassÃ©');
+  assert.equal(rolledBack.videoRecords['V1'].status, 'Classé');
   assert.equal(rolledBack.videoRecords['V1'].driveFileId, undefined);
-  assert.equal(rolledBack.videoRecords['V2'].status, 'ValidÃ©');
+  assert.equal(rolledBack.videoRecords['V2'].status, 'Validé');
 });
 
 test('traceability registry records enforce zero-storage: contains light metadata without full markdown body', async () => {
@@ -238,7 +238,7 @@ test('traceability registry records enforce zero-storage: contains light metadat
   ];
   let reg = createInitialRegistry(mockVideos as any);
   reg = updateVideoTrace(reg, 'V_TEST', {
-    status: 'ValidÃ©',
+    status: 'Validé',
     codabilityScore: 10.0,
     fileSizeBytes: 24500,
     driveFileId: 'drive_xyz',
@@ -269,8 +269,8 @@ test('lintFicheV3 supports both P-01 / R-01 and P-CONCEPT-01 / R-CONCEPT-01 plus
 
   // Inject an out-of-bounds HH:MM:SS timestamp (01:05:30 = 3930s > 3600s) in Section I
   const outOfBoundsHhMmSs = modifiedFiche.replace(
-    '## I. REGISTRE DE PREUVES HORODATÃ‰',
-    '## I. REGISTRE DE PREUVES HORODATÃ‰\nS-99 [01:05:30] : Timestamp hors durÃ©e'
+    '## I. REGISTRE DE PREUVES HORODATÉ',
+    '## I. REGISTRE DE PREUVES HORODATÉ\nS-99 [01:05:30] : Timestamp hors durée'
   );
   const resInvalid = lintFicheV3(outOfBoundsHhMmSs);
   assert.equal(resInvalid.isValid, false);
