@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
+﻿import { initializeApp, getApps, getApp } from 'firebase/app';
 import { 
   getAuth, 
   signInWithPopup, 
@@ -26,19 +26,8 @@ try {
 }
 
 export const DRIVE_SCOPES = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.activity',
-  'https://www.googleapis.com/auth/drive.activity.readonly',
-  'https://www.googleapis.com/auth/drive.appdata',
-  'https://www.googleapis.com/auth/drive.apps.readonly',
   'https://www.googleapis.com/auth/drive.file',
-  'https://www.googleapis.com/auth/drive.install',
-  'https://www.googleapis.com/auth/drive.meet.readonly',
-  'https://www.googleapis.com/auth/drive.metadata',
-  'https://www.googleapis.com/auth/drive.metadata.readonly',
-  'https://www.googleapis.com/auth/drive.photos.readonly',
-  'https://www.googleapis.com/auth/drive.readonly',
-  'https://www.googleapis.com/auth/drive.scripts',
+  'https://www.googleapis.com/auth/drive',
 ];
 
 const provider = new GoogleAuthProvider();
@@ -211,7 +200,7 @@ export const googleSignIn = async (): Promise<{ user: User; accessToken: string 
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     if (!credential?.accessToken) {
-      throw new Error('Impossible d\'obtenir le jeton d\'accès Google Drive depuis Firebase Auth');
+      throw new Error('Impossible d\'obtenir le jeton d\'accÃ¨s Google Drive depuis Firebase Auth');
     }
 
     const accessToken = credential.accessToken;
@@ -676,7 +665,7 @@ export async function reorganizeDriveFilesIntoTaxonomy(
       await moveDriveFile(file.id, rootFolderId, targetFolderId);
       movedCount++;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Erreur déplacement';
+      const msg = err instanceof Error ? err.message : 'Erreur dÃ©placement';
       errors.push(`Erreur sur ${file.name} : ${msg}`);
     }
   }
