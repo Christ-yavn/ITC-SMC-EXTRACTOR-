@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix HugoFX ICT/SMC Knowledge Architecture Workbench",
+  "description": "Système d\u0027ingénierie de prompts et d\u0027extraction de connaissances de trading ICT/SMC pour la chaîne HugoFX : registre, protocoles, schémas de fiches et prompts de consolidation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

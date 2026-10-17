@@ -1,0 +1,13 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.playwright-cli/
+*.png
+.env*
+!.env.example
+
+
+.aistudio/
